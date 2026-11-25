@@ -1,4 +1,4 @@
-// 台帳・取り込み・手元の件数をつなぐ。main.mjs（本番）と scripts/demo.mjs（架空のデータ）の両方から使う。
+// 台帳・取り込み・手元の件数をつなぐ。main.mjs（Cloud Logging を読む）と scripts/demo.mjs（架空のデータ）の両方から使う。
 import { EventEmitter } from "node:events";
 import { loadCatalog, catalogStamp, readSources } from "./catalog.mjs";
 import { History } from "./history.mjs";
@@ -16,7 +16,7 @@ export class App extends EventEmitter {
     super();
     if (!config.catalogDir)
       throw new Error(
-        "台帳のフォルダが決まっていません。~/.prod-log-dash/config.json の catalogDir か、環境変数 PROD_LOG_DASH_CATALOG で指定してください",
+        "台帳のフォルダが決まっていません。~/.cloud-logging-monitor/config.json の catalogDir か、環境変数 CLOUD_LOGGING_MONITOR_CATALOG で指定してください",
       );
     this.config = config;
     this.now = now;

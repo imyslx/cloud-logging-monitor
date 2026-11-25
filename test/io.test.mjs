@@ -117,7 +117,7 @@ function demoApp() {
   mkdirSync(catalogDir);
   for (const [f, body] of Object.entries(DEMO_CATALOG)) writeFileSync(join(catalogDir, f), body);
   const now = Date.parse("2026-11-25T03:30:00Z");
-  const config = { ...loadConfig({ PROD_LOG_DASH_DIR: join(root, "data") }), catalogDir, catalogCheckMs: 10_000 };
+  const config = { ...loadConfig({ CLOUD_LOGGING_MONITOR_DIR: join(root, "data") }), catalogDir, catalogCheckMs: 10_000 };
   const app = new App({ config, makeSource: () => new DemoSource({ now: () => now }), now: () => now });
   return { app, catalogDir, config };
 }
@@ -180,7 +180,7 @@ test("サーバー：一覧・詳細・変更通知・画面のファイルを�
     const page = await fetch(`${base}/`);
     assert.equal(page.status, 200);
     assert.match(page.headers.get("content-type"), /text\/html/);
-    assert.match(await page.text(), /本番ログ/);
+    assert.match(await page.text(), /Cloud Logging Monitor/);
     assert.match((await fetch(`${base}/app.js`)).headers.get("content-type"), /javascript/);
     assert.equal((await fetch(`${base}/nope.css`)).status, 404);
     assert.equal((await fetch(`${base}/api/state`, { method: "POST" })).status, 405);

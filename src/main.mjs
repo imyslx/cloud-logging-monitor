@@ -1,4 +1,4 @@
-// 起動の入口（本番の Cloud Logging を読む）。
+// 起動の入口（Cloud Logging を読む）。
 import { loadConfig } from "./config.mjs";
 import { App } from "./app.mjs";
 import { LoggingSource, gcloudToken, findGcloud } from "./source.mjs";
@@ -22,7 +22,7 @@ try {
 }
 
 createAppServer(app).listen(config.port, config.host, () => {
-  console.log(`prod-log-dash: http://${config.host}:${config.port}`);
+  console.log(`Cloud Logging Monitor: http://${config.host}:${config.port}`);
   console.log(`  台帳: ${config.catalogDir}（${app.catalog.entries.length} 件）`);
   console.log(`  取り込み: ${app.sources.project}・${config.pollMs / 60_000} 分ごと`);
   console.log(`  手元の件数: ${config.stateFile}`);

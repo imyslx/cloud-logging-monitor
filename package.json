@@ -1,7 +1,7 @@
 {
-  "name": "prod-log-dash",
+  "name": "cloud-logging-monitor",
   "version": "0.1.0",
-  "description": "本番ログの WARNING 以上を定期的に取り込み、種類ごとに分類・件数・傾向・NEW を一画面で見るローカルダッシュボード",
+  "description": "Cloud Logging のログを定期的に取り込み、種類ごとに分類・件数・傾向・NEW を一画面で見るローカルダッシュボード",
   "type": "module",
   "private": true,
   "license": "MIT",

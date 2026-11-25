@@ -15,14 +15,14 @@ mkdirSync(catalogDir, { recursive: true });
 for (const [f, body] of Object.entries(DEMO_CATALOG)) writeFileSync(join(catalogDir, f), body);
 
 const config = {
-  ...loadConfig({ PROD_LOG_DASH_DIR: join(root, "data") }),
+  ...loadConfig({ CLOUD_LOGGING_MONITOR_DIR: join(root, "data") }),
   catalogDir,
   codeRoot: null,
-  port: Number(process.env.PROD_LOG_DASH_PORT || 4321),
+  port: Number(process.env.CLOUD_LOGGING_MONITOR_PORT || 4321),
   pollMs: 60_000,
 };
 const app = new App({ config, makeSource: () => new DemoSource() });
 createAppServer(app).listen(config.port, config.host, () => {
-  console.log(`prod-log-dash（デモ・架空のデータ）: http://${config.host}:${config.port}`);
+  console.log(`Cloud Logging Monitor（デモ・架空のデータ）: http://${config.host}:${config.port}`);
   app.start();
 });

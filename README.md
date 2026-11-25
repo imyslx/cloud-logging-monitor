@@ -1,6 +1,6 @@
-# prod-log-dash
+# Cloud Logging Monitor
 
-Google Cloud（Cloud Logging）の本番ログの WARNING 以上を5分ごとに取り込み、
+Google Cloud の Cloud Logging から、決めた条件（例：WARNING 以上）のログを5分ごとに取り込み、
 
 - **種類**ごと（同じ原因のログを1つにまとめた単位）の件数と、1時間ごと・日ごとの推移
 - 台帳に書いた**分類**（実害あり・未判定・設計通り・誤検知・環境ノイズ）
@@ -11,6 +11,8 @@ Google Cloud（Cloud Logging）の本番ログの WARNING 以上を5分ごとに
 
 分類の根拠は、人がコードで裏を取って**台帳**に書き、このツールはそれを読むだけです。ログの文面だけで分類を決めることはしません。
 
+Google の公式のツールではありません。
+
 ## 必要なもの
 
 - Node.js 22 以上
@@ -20,7 +22,7 @@ Google Cloud（Cloud Logging）の本番ログの WARNING 以上を5分ごとに
 ## セットアップ
 
 1. 台帳のフォルダを作り、`sources.json` を置く（下の「台帳」）。台帳の1件は、最初は無くてよい（すべて NEW として出る）
-2. `~/.prod-log-dash/config.json` に端末ごとの設定を書く
+2. `~/.cloud-logging-monitor/config.json` に端末ごとの設定を書く
 
    ```json
    {
@@ -151,20 +153,20 @@ issues: [ABC-123]
 
 ## 設定
 
-`~/.prod-log-dash/config.json` か環境変数で渡します。
+`~/.cloud-logging-monitor/config.json` か環境変数で渡します。
 
 | config.json | 環境変数 | 既定値 | 内容 |
 | --- | --- | --- | --- |
-| `catalogDir` | `PROD_LOG_DASH_CATALOG` | なし（必須） | 台帳のフォルダ |
-| `codeRoot` | `PROD_LOG_DASH_CODE_ROOT` | なし | リポジトリを並べている親フォルダ。コードの場所を VSCode のリンクにする |
-| `gcloud` | `PROD_LOG_DASH_GCLOUD` | 自動 | gcloud の場所。Windows では既定のインストール先も探す |
-| `port` | `PROD_LOG_DASH_PORT` | `4320` | 待ち受けポート（`127.0.0.1` だけ） |
-| `pollMinutes` | `PROD_LOG_DASH_POLL_MINUTES` | `5` | 取り込みの間隔 |
-| — | `PROD_LOG_DASH_DIR` | `~/.prod-log-dash` | 設定と手元の件数の置き場 |
+| `catalogDir` | `CLOUD_LOGGING_MONITOR_CATALOG` | なし（必須） | 台帳のフォルダ |
+| `codeRoot` | `CLOUD_LOGGING_MONITOR_CODE_ROOT` | なし | リポジトリを並べている親フォルダ。コードの場所を VSCode のリンクにする |
+| `gcloud` | `CLOUD_LOGGING_MONITOR_GCLOUD` | 自動 | gcloud の場所。Windows では既定のインストール先も探す |
+| `port` | `CLOUD_LOGGING_MONITOR_PORT` | `4320` | 待ち受けポート（`127.0.0.1` だけ） |
+| `pollMinutes` | `CLOUD_LOGGING_MONITOR_POLL_MINUTES` | `5` | 取り込みの間隔 |
+| — | `CLOUD_LOGGING_MONITOR_DIR` | `~/.cloud-logging-monitor` | 設定と手元の件数の置き場 |
 
 さかのぼる日数（7日）・件数を残す日数（90日）・書き込みの遅れを待つ時間（2分）などは `src/config.mjs` にあります。
 
-手元の件数（`~/.prod-log-dash/state.json`）には、ログの実例（本文の1行目）が種類ごとに最大3件入ります。本番のデータが混ざりうるので、共有しないでください。
+手元の件数（`~/.cloud-logging-monitor/state.json`）には、ログの実例（本文の1行目）が種類ごとに最大3件入ります。ログに入っている利用者のデータなどが混ざりうるので、共有しないでください。
 
 ## 仕組み
 
@@ -174,7 +176,7 @@ gcloud auth print-access-token ──▶ Logging API entries:list（古い順・
                                           ▼
                               src/signature.mjs（1件 → 種類）
                                           ▼
-                 src/history.mjs（種類×1時間の件数・初出・最終・実例 → ~/.prod-log-dash/state.json）
+                 src/history.mjs（種類×1時間の件数・初出・最終・実例 → ~/.cloud-logging-monitor/state.json）
                                           ▼
    台帳のフォルダ ──▶ src/catalog.mjs ──▶ src/view.mjs（台帳と突き合わせて行にする）
                                           ▼

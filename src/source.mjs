@@ -23,7 +23,7 @@ export function explainGcloudError(stderr) {
   if (/reauth|login|credentials|refresh token/i.test(s))
     return "gcloud の認証が切れています。端末で `gcloud auth login` を実行してください";
   if (/not recognized|not found|ENOENT|内部コマンドまたは外部コマンド|認識されていません/i.test(s))
-    return "gcloud が見つかりません。~/.prod-log-dash/config.json の gcloud に場所を書いてください";
+    return "gcloud が見つかりません。~/.cloud-logging-monitor/config.json の gcloud に場所を書いてください";
   return `gcloud がエラーを返しました: ${s.trim().split(/\r?\n/).slice(-1)[0] || "（文面なし）"}`;
 }
 

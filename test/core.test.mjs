@@ -484,17 +484,17 @@ test("コードの場所：Mac のパスでも VSCode のリンクになり、�
 test("設定：環境変数と config.json から読み、無ければ既定値", () => {
   const dir = mkdtempSync(join(tmpdir(), "pld-conf-"));
   writeFileSync(join(dir, "config.json"), JSON.stringify({ catalogDir: "/cat", codeRoot: "C:\\GitHub", port: 5000, pollMinutes: 10 }));
-  const c = loadConfig({ PROD_LOG_DASH_DIR: dir });
+  const c = loadConfig({ CLOUD_LOGGING_MONITOR_DIR: dir });
   assert.equal(c.catalogDir, "/cat");
   assert.equal(c.port, 5000);
   assert.equal(c.pollMs, 600_000);
   assert.equal(c.host, "127.0.0.1");
-  const c2 = loadConfig({ PROD_LOG_DASH_DIR: dir, PROD_LOG_DASH_CATALOG: "/env", PROD_LOG_DASH_PORT: "4400" });
+  const c2 = loadConfig({ CLOUD_LOGGING_MONITOR_DIR: dir, CLOUD_LOGGING_MONITOR_CATALOG: "/env", CLOUD_LOGGING_MONITOR_PORT: "4400" });
   assert.equal(c2.catalogDir, "/env");
   assert.equal(c2.port, 4400);
-  const empty = loadConfig({ PROD_LOG_DASH_DIR: join(dir, "none") });
+  const empty = loadConfig({ CLOUD_LOGGING_MONITOR_DIR: join(dir, "none") });
   assert.equal(empty.catalogDir, null);
   assert.equal(empty.port, 4320);
   writeFileSync(join(dir, "config.json"), "{");
-  assert.throws(() => loadConfig({ PROD_LOG_DASH_DIR: dir }), /読めません/);
+  assert.throws(() => loadConfig({ CLOUD_LOGGING_MONITOR_DIR: dir }), /読めません/);
 });

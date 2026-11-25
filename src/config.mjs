@@ -1,4 +1,4 @@
-// 設定。端末ごとの値は ~/.prod-log-dash/config.json か環境変数で渡す。
+// 設定。端末ごとの値は ~/.cloud-logging-monitor/config.json か環境変数で渡す。
 // 何を取り込むか（GCP プロジェクト・フィルタ）は台帳のフォルダの sources.json が持つ（ADR-0002）。
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -14,17 +14,17 @@ export function readJsonFile(file, fallback = {}) {
 }
 
 export function loadConfig(env = process.env) {
-  const dataDir = env.PROD_LOG_DASH_DIR || join(homedir(), ".prod-log-dash");
+  const dataDir = env.CLOUD_LOGGING_MONITOR_DIR || join(homedir(), ".cloud-logging-monitor");
   const local = readJsonFile(join(dataDir, "config.json"));
   return {
     dataDir,
     stateFile: join(dataDir, "state.json"),
-    catalogDir: env.PROD_LOG_DASH_CATALOG || local.catalogDir || null, // 台帳のフォルダ（必須）
-    codeRoot: env.PROD_LOG_DASH_CODE_ROOT || local.codeRoot || null, // リポジトリを並べている親フォルダ。VSCode で開くリンクに使う
-    gcloud: env.PROD_LOG_DASH_GCLOUD || local.gcloud || null, // gcloud の場所（PATH に無いとき）
+    catalogDir: env.CLOUD_LOGGING_MONITOR_CATALOG || local.catalogDir || null, // 台帳のフォルダ（必須）
+    codeRoot: env.CLOUD_LOGGING_MONITOR_CODE_ROOT || local.codeRoot || null, // リポジトリを並べている親フォルダ。VSCode で開くリンクに使う
+    gcloud: env.CLOUD_LOGGING_MONITOR_GCLOUD || local.gcloud || null, // gcloud の場所（PATH に無いとき）
     host: "127.0.0.1", // ローカル専用。認証を持たないので外からは受け付けない
-    port: Number(env.PROD_LOG_DASH_PORT || local.port || 4320),
-    pollMs: Number(env.PROD_LOG_DASH_POLL_MINUTES || local.pollMinutes || 5) * 60_000,
+    port: Number(env.CLOUD_LOGGING_MONITOR_PORT || local.port || 4320),
+    pollMs: Number(env.CLOUD_LOGGING_MONITOR_POLL_MINUTES || local.pollMinutes || 5) * 60_000,
     lagMs: 2 * 60_000, // 書き込みの遅れを待つ。この時間より新しいログは次の回に読む
     pageSize: 1000,
     maxPagesPerPoll: 20, // 1回で読むのは最大 2 万件。残りはすぐ次の回で続きから読む
