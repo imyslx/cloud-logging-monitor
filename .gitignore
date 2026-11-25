@@ -1,0 +1,4 @@
+node_modules/
+.DS_Store
+# npm run demo で作る一時データ
+demo-data/

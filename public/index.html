@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>本番ログ</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="top-row">
+        <h1>本番ログ</h1>
+        <p id="status" class="status" aria-live="polite"></p>
+      </div>
+      <div id="problems" class="problems" hidden></div>
+      <div class="controls">
+        <nav id="tabs" class="tabs" aria-label="分類で絞り込む"></nav>
+        <div id="sorts" class="sorts" role="group" aria-label="並び">
+          <span class="sorts-label">並び</span>
+          <button class="tab" type="button" data-sort="default">既定</button>
+          <button class="tab" type="button" data-sort="recent">直近24時間</button>
+          <button class="tab" type="button" data-sort="latest">最後に出た</button>
+        </div>
+        <input id="search" class="search" type="search" placeholder="本文・サービス・component で探す" aria-label="探す" />
+      </div>
+    </header>
+    <main class="layout">
+      <section class="list" aria-label="種類の一覧">
+        <table id="table" class="rows">
+          <thead>
+            <tr>
+              <th scope="col">種類</th>
+              <th scope="col">分類</th>
+              <th scope="col">対応</th>
+              <th scope="col" class="num" data-sort-col="recent"><button class="th-sort" type="button" data-sort="recent">直近24時間<span class="arrow" aria-hidden="true"></span></button></th>
+              <th scope="col" class="num">前日比</th>
+              <th scope="col">24時間の推移</th>
+              <th scope="col" data-sort-col="latest"><button class="th-sort" type="button" data-sort="latest">最後に出た<span class="arrow" aria-hidden="true"></span></button></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <p id="empty" class="empty" hidden></p>
+      </section>
+      <aside id="detail" class="detail" hidden aria-label="詳細"></aside>
+    </main>
+    <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

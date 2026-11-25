@@ -1,0 +1,18 @@
+{
+  "name": "prod-log-dash",
+  "version": "0.1.0",
+  "description": "本番ログの WARNING 以上を定期的に取り込み、種類ごとに分類・件数・傾向・NEW を一画面で見るローカルダッシュボード",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/main.mjs",
+    "demo": "node scripts/demo.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "coverage": "node --test --experimental-test-coverage \"test/*.test.mjs\"",
+    "check": "node scripts/check-syntax.mjs"
+  }
+}
